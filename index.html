@@ -1,13 +1,559 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Title</title>
+    <title>Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-ink: #1a1a1a;
+            --color-cream: #f8f6f1;
+            --color-accent: #c4926f;
+            --color-soft: #e8e4dc;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Work Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-cream);
+            color: var(--color-ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            gap: 3rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--color-ink);
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-accent);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(196, 146, 111, 0.05) 0%, rgba(196, 146, 111, 0.15) 100%);
+            clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            font-weight: 300;
+            color: #666;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .intro {
+            max-width: 600px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--color-ink);
+            color: var(--color-cream);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-accent);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Section Base */
+        section {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--color-accent);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 4rem;
+            max-width: 600px;
+        }
+
+        /* Work Grid */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .work-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            background: var(--color-soft);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .work-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .work-item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .work-item:hover .work-item-image {
+            transform: scale(1.05);
+        }
+
+        .work-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(26, 26, 26, 0.9) 0%, transparent 100%);
+            padding: 2rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .work-item:hover .work-item-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .work-item h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--color-cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .work-item p {
+            color: rgba(248, 246, 241, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 500px;
+            background: var(--color-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .skills {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1.2rem;
+            background: var(--color-soft);
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--color-ink);
+            color: var(--color-cream);
+            padding: 8rem 5%;
+            margin: 0 -5%;
+        }
+
+        .contact-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: rgba(248, 246, 241, 0.8);
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .contact-link {
+            color: var(--color-cream);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border: 2px solid var(--color-cream);
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-link:hover {
+            background: var(--color-cream);
+            color: var(--color-ink);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-ink);
+            color: rgba(248, 246, 241, 0.6);
+            text-align: center;
+            padding: 2rem 5%;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .work-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav ul {
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Visible content goes here -->
-    <h1>Hello World!</h1>
-    <p>This is my first webpage.</p>
+    <nav>
+        <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Creative<br>Designer &<br>Developer</h1>
+            <p class="subtitle">Crafting digital experiences that matter</p>
+            <p class="intro">
+                Blending aesthetics with functionality to create meaningful digital products. 
+                Specializing in user-centered design and modern web development.
+            </p>
+            <a href="#work" class="cta-button">View My Work</a>
+        </div>
+    </section>
+
+    <section id="work">
+        <h2 class="section-title">Selected Work</h2>
+        <p class="section-subtitle">A collection of projects that showcase my approach to design and development</p>
+        
+        <div class="work-grid">
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?w=800&h=600&fit=crop" alt="Project 1" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>Brand Redesign</h3>
+                    <p>Complete visual identity overhaul for a modern tech startup</p>
+                </div>
+            </div>
+            
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" alt="Project 2" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>E-Commerce Platform</h3>
+                    <p>Full-stack development of a custom shopping experience</p>
+                </div>
+            </div>
+            
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=600&fit=crop" alt="Project 3" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>Mobile App Design</h3>
+                    <p>UX/UI design for a wellness and meditation application</p>
+                </div>
+            </div>
+            
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop" alt="Project 4" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>Editorial Website</h3>
+                    <p>Content-focused design for a digital magazine</p>
+                </div>
+            </div>
+            
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop" alt="Project 5" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>Dashboard Interface</h3>
+                    <p>Data visualization and analytics platform</p>
+                </div>
+            </div>
+            
+            <div class="work-item">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop" alt="Project 6" class="work-item-image">
+                <div class="work-item-overlay">
+                    <h3>Creative Campaign</h3>
+                    <p>Multi-channel marketing campaign for product launch</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-content">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop" alt="About">
+            </div>
+            <div class="about-text">
+                <h2>Passionate about creating experiences that inspire</h2>
+                <p>
+                    With over 5 years of experience in design and development, I've had the privilege 
+                    of working with startups, agencies, and enterprises to bring their visions to life.
+                </p>
+                <p>
+                    My approach combines strategic thinking with meticulous attention to detail, 
+                    ensuring every project not only looks beautiful but functions seamlessly.
+                </p>
+                <div class="skills">
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Web Development</span>
+                    <span class="skill-tag">Brand Identity</span>
+                    <span class="skill-tag">React & JavaScript</span>
+                    <span class="skill-tag">Figma & Adobe CC</span>
+                    <span class="skill-tag">Motion Design</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="contact" id="contact">
+        <div class="contact-content">
+            <h2>Let's Work Together</h2>
+            <p>I'm always interested in hearing about new projects and opportunities</p>
+            <div class="contact-links">
+                <a href="mailto:hello@yourname.com" class="contact-link">Email Me</a>
+                <a href="#" class="contact-link">LinkedIn</a>
+                <a href="#" class="contact-link">Download CV</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Your Name. All rights reserved.</p>
+    </footer>
 </body>
 </html>
